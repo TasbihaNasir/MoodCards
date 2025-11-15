@@ -18,6 +18,13 @@
         <div class="bubble"></div>
     </div>
 
+    
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 1002;">
+        <button type="button" class="btn btn-primary btn-lg" id="musicToggleBtn" style="padding: 12px 25px;">
+            🎵 Play Focus Music
+        </button>
+    </div>
+
     <div class="container">
         <div class="text-center mb-4">
             <h1 class="text-white">{{ mood_name }} Flashcards 💫</h1>
@@ -28,21 +35,22 @@
         <div class="row justify-content-center mb-4">
             <div class="col-md-10">
                 <div class="flashcard-container">
-                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
-                        <div class="flashcard-inner">
-                            <div class="flashcard-front">
-                                <div class="card-number">Card {{ loop.index }}/5</div>
-                                <h3>Question</h3>
-                                <p class="flashcard-text">{{ card.question }}</p>
-                                <small class="text-muted">Click to see answer</small>
-                            </div>
-                            <div class="flashcard-back">
-                                <div class="card-number">Card {{ loop.index }}/5</div>
-                                <h3>Answer</h3>
-                                <p class="flashcard-text">{{ card.answer }}</p>
-                                <div class="motivation-message">
-                                    {{ messages[loop.index0] }}
-                                </div>
+                    <div class="flashcard" onclick="flipCard(this)">
+                        
+                        <div class="flashcard-front">
+                            <div class="card-number">Card {{ loop.index }}/5</div>
+                            <h3>Question</h3>
+                            <p class="flashcard-text">{{ card.question }}</p>
+                            <small class="text-muted">Click to flip and see answer</small>
+                        </div>
+                        
+                        
+                        <div class="flashcard-back">
+                            <div class="card-number">Card {{ loop.index }}/5</div>
+                            <h3>Answer</h3>
+                            <p class="flashcard-text">{{ card.answer }}</p>
+                            <div class="motivation-message">
+                                {{ messages[loop.index0] }}
                             </div>
                         </div>
                     </div>
@@ -56,7 +64,7 @@
         </div>
     </div>
 
-    <!-- Bunny with Speech Bubble -->
+    
     <div class="bunny-container">
         <div class="speech-bubble" id="speechBubble">
             {{ messages[0] }}
@@ -82,56 +90,105 @@
         </div>
     </div>
 
-<script>
-    // Bunny interaction and speech bubble messages
-    const speechBubble = document.getElementById("speechBubble");
-    const bunny = document.querySelector('.bunny');
     
-    // Hardcoded messages for testing
-    const messages = [
-        "You're doing great! Take your time 💕",
-        "Learning at your own pace is perfect 🌸", 
-        "Every answer is progress! 💖",
-        "You've got this, no rush! ✨",
-        "Breathe and believe in yourself 🌺"
-    ];
-    
-    let currentMessageIndex = 0;
+    <iframe 
+        id="youtubePlayer"
+        style="position: fixed; bottom: -9999px; left: -9999px; width: 1px; height: 1px;"
+        frameborder="0" 
+        allow="autoplay; encrypted-media">
+    </iframe>
 
-    // Change message when bunny is clicked
-    bunny.addEventListener('click', function() {
-        currentMessageIndex = (currentMessageIndex + 1) % messages.length;
-        speechBubble.textContent = messages[currentMessageIndex];
-        speechBubble.classList.add("bubble-pop");
-        setTimeout(() => {
-            speechBubble.classList.remove('bubble-pop');
-        }, 300);
-    });
+    <script>
+       
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
 
-    // Auto-changing message every 10 seconds
-    setInterval(() => {
-        currentMessageIndex = (currentMessageIndex + 1) % messages.length;
-        speechBubble.textContent = messages[currentMessageIndex];
-        speechBubble.classList.add("bubble-pop");
-        setTimeout(() => {
-            speechBubble.classList.remove('bubble-pop');
-        }, 300);
-    }, 10000);
+        
+        const youtubePlayer = document.getElementById('youtubePlayer');
+        const musicBtn = document.getElementById('musicToggleBtn');
+        const MUSIC_URL = 'https://www.youtube.com/embed/WPni755-Krg?autoplay=1&loop=1&playlist=WPni755-Krg&controls=0&enablejsapi=1';
 
-    // Change message when flashcards are flipped
-    document.querySelectorAll('.flashcard').forEach(card => {
-        card.addEventListener('click', function() {
-            // Small chance to change message when flipping cards
-            if (Math.random() < 0.3) {
-                currentMessageIndex = (currentMessageIndex + 1) % messages.length;
-                speechBubble.textContent = messages[currentMessageIndex];
-                speechBubble.classList.add("bubble-pop");
-                setTimeout(() => {
-                    speechBubble.classList.remove('bubble-pop');
-                }, 300);
+        // Check if music was playing before (using sessionStorage)
+        let musicPlaying = sessionStorage.getItem('musicPlaying') === 'true';
+        
+        if (musicPlaying) {
+            youtubePlayer.src = MUSIC_URL;
+            musicBtn.innerHTML = '⏸️ Stop Music';
+            musicBtn.style.animation = 'music-pulse 2s ease-in-out infinite';
+        }
+
+        musicBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            if (musicPlaying) {
+                // Stop music
+                youtubePlayer.src = '';
+                musicBtn.innerHTML = '🎵 Play Focus Music';
+                musicBtn.style.animation = 'none';
+                musicPlaying = false;
+                sessionStorage.setItem('musicPlaying', 'false');
+                console.log('Music stopped');
+            } else {
+                // Play music
+                youtubePlayer.src = MUSIC_URL;
+                musicBtn.innerHTML = '⏸️ Stop Music';
+                musicBtn.style.animation = 'music-pulse 2s ease-in-out infinite';
+                musicPlaying = true;
+                sessionStorage.setItem('musicPlaying', 'true');
+                console.log('Music playing');
             }
         });
-    });
-</script>
+
+        // Bunny yahan pe intreact krega
+        const speechBubble = document.getElementById("speechBubble");
+        const bunny = document.querySelector('.bunny');
+        
+        
+        const messages = [
+            "You're doing great! Take your time 💕",
+            "Learning at your own pace is perfect 🌸", 
+            "Every answer is progress! 💖",
+            "You've got this, no rush! ✨",
+            "Breathe and believe in yourself 🌺"
+        ];
+        
+        let currentMessageIndex = 0;
+
+        // message badlne yahan pe
+        bunny.addEventListener('click', function() {
+            currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+            speechBubble.textContent = messages[currentMessageIndex];
+            speechBubble.classList.add("bubble-pop");
+            setTimeout(() => {
+                speechBubble.classList.remove('bubble-pop');
+            }, 300);
+        });
+
+        
+        setInterval(() => {
+            currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+            speechBubble.textContent = messages[currentMessageIndex];
+            speechBubble.classList.add("bubble-pop");
+            setTimeout(() => {
+                speechBubble.classList.remove('bubble-pop');
+            }, 300);
+        }, 10000);
+
+        
+        document.querySelectorAll('.flashcard').forEach(card => {
+            card.addEventListener('click', function() {
+                // Small chance to change message when flipping cards
+                if (Math.random() < 0.3) {
+                    currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+                    speechBubble.textContent = messages[currentMessageIndex];
+                    speechBubble.classList.add("bubble-pop");
+                    setTimeout(() => {
+                        speechBubble.classList.remove('bubble-pop');
+                    }, 300);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

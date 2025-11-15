@@ -1,119 +1,404 @@
-/* Add to your existing style.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap');
 
-/* Wider container */
-.container {
-    max-width: 1000px;
+body {
+    background: linear-gradient(135deg, #d946a8 0%, #e55db8 35%, #f27bc8 65%, #ff9ad8 100%);
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    overflow-x: hidden;
 }
 
-/* Wider cards */
-.col-md-10 {
+body.mood-pink {
+    background: linear-gradient(135deg, #d946a8 0%, #e55db8 35%, #f27bc8 65%, #ff9ad8 100%);
+}
+
+body.mood-blue {
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 35%, #93c5fd 65%, #bfdbfe 100%);
+}
+
+body.mood-green {
+    background: linear-gradient(135deg, #10b981 0%, #34d399 35%, #6ee7b7 65%, #a7f3d0 100%);
+}
+.bubbles {
+    position: fixed;
     width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
 }
 
-/* Better text sizing for wider cards */
-.flashcard-text {
-    font-size: 1.3rem;
-    line-height: 1.7;
-    padding: 0 20px;
+.bubble {
+    position: absolute;
+    bottom: -100px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: rise 15s infinite ease-in;
+    backdrop-filter: blur(2px);
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2);
 }
-
-/* Mood name styling */
-.mood-name {
-    font-weight: bold;
-    font-size: 1.1rem;
-    margin: 5px 0;
-}
-
-/* Better button styling */
-.btn-outline-mood {
-    height: 120px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.mood-emoji {
-    font-size: 2rem;
-    margin-bottom: 8px;
-}
-
-.mood-image {
+.bubble:nth-child(1) {
     width: 80px;
     height: 80px;
-    object-fit: contain;
-    margin-bottom: 10px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    padding: 8px;
-    transition: all 0.3s ease;
+    left: 10%;
+    animation-duration: 8s;
 }
 
-/* Make gray cats look good with pink background */
-.btn-outline-mood:hover .mood-image {
-    transform: scale(1.1);
-    background: rgba(255, 255, 255, 0.5);
+.bubble:nth-child(2) {
+    width: 50px;
+    height: 50px;
+    left: 25%;
+    animation-duration: 6s;
+    animation-delay: 1s;
 }
 
-.btn-check:checked + .btn-outline-mood .mood-image {
-    background: rgba(255, 255, 255, 0.7);
-    transform: scale(1.05);
-    box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.3);
+.bubble:nth-child(3) {
+    width: 100px;
+    height: 100px;
+    left: 40%;
+    animation-duration: 10s;
+    animation-delay: 2s;
 }
 
-/* Mood button styling */
+.bubble:nth-child(4) {
+    width: 120px;
+    height: 120px;
+    left: 55%;
+    animation-duration: 12s;
+    animation-delay: 0s;
+}
+
+.bubble:nth-child(5) {
+    width: 60px;
+    height: 60px;
+    left: 70%;
+    animation-duration: 7s;
+    animation-delay: 1.5s;
+}
+
+.bubble:nth-child(6) {
+    width: 90px;
+    height: 90px;
+    left: 85%;
+    animation-duration: 9s;
+    animation-delay: 3s;
+}
+
+@keyframes rise {
+    0% {
+        bottom: -150px;
+        transform: translateX(0) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.6;
+        transform: translateX(20px) scale(1);
+    }
+    50% {
+        transform: translateX(-50px) scale(1.1);
+    }
+    100% {
+        bottom: 110vh;
+        transform: translateX(100px) scale(0.8);
+        opacity: 0;
+    }
+}
+
+.container {
+    max-width: 1000px;
+    position: relative;
+    z-index: 10;
+    padding-top: -100px !important;
+}
+.main-card {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-radius: 25px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 
+                0 0 0 1px rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter: blur(20px);
+    margin-top: 60px !important;
+    padding: 40px !important;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+}
+h1 {
+    font-family: 'Quicksand', sans-serif !important;
+    font-weight: 700 !important;
+    color: #d946a8 !important;
+    font-size: 3rem !important;
+    text-shadow: 2px 2px 4px rgba(217, 70, 168, 0.2);
+    letter-spacing: 2px;
+}
 .btn-outline-mood {
-    border: 3px solid #dee2e6;
+    border: 3px solid rgba(255, 255, 255, 0.6);
     padding: 20px;
-    transition: all 0.3s;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 20px;
     height: 180px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    font-family: 'Quicksand', sans-serif;
+}
+
+.btn-outline-mood:hover {
+    border-color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
 }
 
 .btn-check:checked + .btn-outline-mood {
-    background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
-    border-color: #ff69b4;
+    background: linear-gradient(135deg, #d946a8 0%, #c026d3 100%);
+    border-color: white;
     color: white;
     transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(217, 70, 168, 0.4);
 }
 
 .btn-check:checked + .btn-outline-mood .mood-name,
 .btn-check:checked + .btn-outline-mood .text-muted {
     color: white !important;
 }
-
-/* Mood name styling */
-.mood-name {
-    font-weight: bold;
-    font-size: 1.1rem;
-    margin: 8px 0 4px 0;
-    color: #333;
+.mood-image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    background: rgba(217, 70, 168, 0.1);
+    padding: 8px;
+    transition: all 0.3s ease;
 }
 
-/* Fallback emoji styling */
+.btn-outline-mood:hover .mood-image {
+    transform: scale(1.15);
+    background: rgba(217, 70, 168, 0.2);
+}
+
+.btn-check:checked + .btn-outline-mood .mood-image {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
+.mood-name {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin: 8px 0 4px 0;
+    color: #333;
+    font-family: 'Quicksand', sans-serif;
+}
+
 .mood-emoji {
     font-size: 3rem;
     margin-bottom: 10px;
-    display: none; /* Hidden by default, shown only if image fails */
+}
+.form-label {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    color: #333;
 }
 
-/* Bunny Container */
+.form-control {
+    border-radius: 15px;
+    border: 2px solid rgba(217, 70, 168, 0.3);
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-control:focus {
+    border-color: #d946a8;
+    box-shadow: 0 0 0 0.2rem rgba(217, 70, 168, 0.25);
+}
+
+.flashcard-container {
+    perspective: 1000px;
+    margin-bottom: 30px;
+}
+
+.flashcard {
+    width: 100%;
+    height: 300px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    border-radius: 25px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+}
+
+.flashcard.flipped {
+    transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 25px;
+    padding: 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    overflow-y: auto;
+}
+.mood-pink .flashcard-front {
+    background: linear-gradient(135deg, #ffffff 0%, #fef3fb 100%);
+    border: 3px solid #d946a8;
+    color: #333;
+}
+
+.mood-pink .flashcard-back {
+    background: linear-gradient(135deg, #fef3fb 0%, #fce7f6 100%);
+    border: 3px solid #d946a8;
+    color: #333;
+    transform: rotateY(180deg);
+}
+
+.mood-pink .flashcard h3 {
+    color: #d946a8;
+}
+
+.mood-pink .card-number {
+    color: #d946a8;
+}
+
+.mood-pink .motivation-message {
+    background: rgba(217, 70, 168, 0.12);
+    color: #d946a8;
+    border-left: 5px solid #d946a8;
+}
+.mood-blue .flashcard-front {
+    background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+    border: 3px solid #3b82f6;
+    color: #333;
+}
+
+.mood-blue .flashcard-back {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 3px solid #3b82f6;
+    color: #333;
+    transform: rotateY(180deg);
+}
+
+.mood-blue .flashcard h3 {
+    color: #3b82f6;
+}
+
+.mood-blue .card-number {
+    color: #3b82f6;
+}
+
+.mood-blue .motivation-message {
+    background: rgba(59, 130, 246, 0.12);
+    color: #3b82f6;
+    border-left: 5px solid #3b82f6;
+}
+.mood-green .flashcard-front {
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+    border: 3px solid #10b981;
+    color: #333;
+}
+
+.mood-green .flashcard-back {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border: 3px solid #10b981;
+    color: #333;
+    transform: rotateY(180deg);
+}
+
+.mood-green .flashcard h3 {
+    color: #10b981;
+}
+
+.mood-green .card-number {
+    color: #10b981;
+}
+
+.mood-green .motivation-message {
+    background: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+    border-left: 5px solid #10b981;
+}
+.card-number {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+}
+.flashcard h3 {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+}
+
+.flashcard p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+}
+
+.flashcard-text {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    padding: 0 15px;
+    max-height: 180px;
+    overflow-y: auto;
+}
+.motivation-message {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 15px;
+    font-weight: 600;
+    font-style: italic;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.95rem;
+}
+
+/* Hover effects */
+.flashcard:hover {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    transform: translateY(-8px);
+}
+
+.flashcard.flipped:hover {
+    transform: rotateY(180deg) translateY(-8px);
+}
+
+/* Small text hint */
+.flashcard small {
+    font-size: 0.85rem;
+}
+
+/* ========== BUNNY CHARACTER ========== */
+
+/* 🐰 BUNNY CONTAINER - POSITION AND SIZE */
 .bunny-container {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 300px;
-    height: 400px;
+    bottom: -100px;
+    right: -10px;
+    width: 280px;
+    height: 350px;
     z-index: 1000;
     pointer-events: none;
 }
 
-/* Make bunny clickable */
 .bunny-container * {
     pointer-events: auto;
 }
@@ -121,70 +406,91 @@
 /* Speech Bubble */
 .speech-bubble {
     position: absolute;
-    top: -80px;
+    top: -75px;
     left: 50%;
     transform: translateX(-50%);
     background: white;
-    padding: 15px 20px;
+    padding: 14px 20px;
     border-radius: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    font-family: 'Balsamiq Sans', cursive;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    font-family: 'Quicksand', sans-serif;
     font-size: 14px;
+    font-weight: 600;
     max-width: 200px;
     text-align: center;
     z-index: 1001;
-    border: 3px solid #ff69b4;
+    border: 3px solid #fef3c7;
     animation: float 3s ease-in-out infinite;
+    color: #333;
 }
 
 .speech-bubble::after {
     content: '';
     position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid white;
-}
-
-.speech-bubble::before {
-    content: '';
-    position: absolute;
-    bottom: -13px;
+    bottom: -12px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
-    border-top: 12px solid #ff69b4;
+    border-top: 12px solid white;
 }
 
-/* Bubble pop animation */
+.speech-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 14px solid #fef3c7;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateX(-50%) translateY(0px); }
+    50% { transform: translateX(-50%) translateY(-8px); }
+}
+
 .bubble-pop {
     animation: pop 0.3s ease-in-out;
 }
 
 @keyframes pop {
     0% { transform: translateX(-50%) scale(1); }
-    50% { transform: translateX(-50%) scale(1.1); }
+    50% { transform: translateX(-50%) scale(1.15); }
     100% { transform: translateX(-50%) scale(1); }
 }
 
-@keyframes float {
-    0%, 100% { transform: translateX(-50%) translateY(0px); }
-    50% { transform: translateX(-50%) translateY(-5px); }
+/* 🐰 BUNNY COLORS */
+:root {
+    --bunny-color: #ffe26f;
+    --bunny-color-2: #fde68a;
+    --bunny-eye-color: #374151;
+    --bunny-cheek-color: #fbbf24;
+    --bunny-tongue-color: #f59e0b;
+    --bunny-mouth-color: #374151;
+    --bunny-nose-color: #374151;
+    --grass-color: #34d399;
+    --grass-color-2: #6ee7b7;
 }
 
-/* Bunny Styles - Updated for smaller size */
+/* 🐰 BUNNY SIZE AND SCALE */
 .bunny {
     width: 150px;
     height: 200px;
-    transform: translateX(70px) scale(0.7);
+    transform: translateX(40px) scale(0.9);
     transform-origin: bottom center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.25));
+}
+
+.bunny:hover {
+    transform: translateX(40px) scale(0.95);
 }
 
 .bunny * {
@@ -199,42 +505,12 @@
     transform: translateY(50px);
 }
 
-/* Updated bunny variables for our app */
-:root {
-    --bunny-size: 200px;
-    --bunny-color: #ffb6c1;
-    --bunny-color-2: #ff91a4;
-    --bunny-eye-color: #473929;
-    --bunny-cheek-color: #ff69b4;
-    --bunny-tongue-color: #ff1493;
-    --bunny-mouth-color: #473929;
-    --bunny-nose-color: #473929;
-    
-    --stick-color: #ff8819;
-    --stick-bubble-color-1: #9e9eff;
-    --stick-bubble-color-2: white;
-    
-    --text-color: #473929;
-    --grass-color: #84cc84;
-    --grass-color-2: lightgreen;
-
-    --breathe-duration: 10s;
-
-    --bubble-color-1: #4fd5e7;
-    --bubble-color-2: #829fff;
-    --bubble-color-3: #76e0cf;
-    --bubble-color-4: #86befd;
-    --bubble-color-5: #91f1d9;
-}
-
-/* Rest of the bunny styles (scaled down) */
 .bunny__eyes {
     padding: 4px;
     background: var(--bunny-eye-color);
     border-radius: 50%;
     box-shadow: 50px 0 var(--bunny-eye-color);
     transform: translate(25px, 25px) rotateZ(6deg);
-    animation: eyesAnim var(--breathe-duration) linear infinite;
 }
 
 .bunny__nose {
@@ -242,7 +518,6 @@
     background: var(--bunny-nose-color);
     border-radius: 50%;
     transform: translate(45px, 30px);
-    animation: noseAnim var(--breathe-duration) linear infinite;
 }
 
 .bunny__cheeks {
@@ -251,7 +526,6 @@
     border-radius: 50%;
     transform: translate(5px, 35px) rotateZ(5deg);
     box-shadow: 70px 0 var(--bunny-cheek-color);
-    animation: cheeksAnim var(--breathe-duration) linear infinite;
 }
 
 .bunny__mouth {
@@ -260,7 +534,6 @@
     border-radius: 50%;
     transform: translate(43px, 45px);
     box-shadow: inset 3px 5px var(--bunny-mouth-color);
-    animation: breatheMouthAnim var(--breathe-duration) linear infinite;
 }
 
 .bunny__ears {
@@ -279,12 +552,10 @@
 
 .bunny__ear--left {
     transform: translateX(35px) rotate(30deg);
-    animation: earLeftAnim var(--breathe-duration) linear infinite;
 }
 
 .bunny__ear--right {
     transform: translateX(80px) rotate(45deg);
-    animation: earRightAnim var(--breathe-duration) linear infinite;
 }
 
 .bunny__feet {
@@ -314,7 +585,6 @@
     background: var(--bunny-color-2);
     border-radius: 50% 50% 50%;
     transform: translate(125px, 130px) rotate(8deg);
-    animation: tailAnim 3s linear infinite;
 }
 
 .bunny__paw {
@@ -324,7 +594,6 @@
     border-radius: 35px 0 0 35px;
     transform-origin: bottom right;
     transform: translate(-30px, 130px) rotate(-2deg);
-    animation: pawAnim var(--breathe-duration) linear infinite;
 }
 
 .grass {
@@ -337,120 +606,138 @@
     box-shadow: 0 4px 0 10px var(--grass-color-2);
 }
 
-/* Make bunny interactive */
-.bunny {
-    cursor: pointer;
-    transition: transform 0.3s ease;
+/* ========== BUTTONS ========== */
+.btn-primary {
+    background: linear-gradient(135deg, #d946a8 0%, #c026d3 100%) !important;
+    border: none !important;
+    box-shadow: 0 8px 25px rgba(217, 70, 168, 0.4) !important;
+    transition: all 0.3s ease !important;
+    font-family: 'Quicksand', sans-serif !important;
+    font-weight: 700 !important;
+    border-radius: 15px !important;
+    padding: 12px 30px !important;
 }
 
-.bunny:hover {
-    transform: translateX(70px) scale(0.75);
+.btn-primary:hover {
+    background: linear-gradient(135deg, #c026d3 0%, #a21caf 100%) !important;
+    box-shadow: 0 12px 35px rgba(217, 70, 168, 0.5) !important;
+    transform: translateY(-3px) !important;
 }
 
-/* Responsive design for mobile */
+/* 🎵 Music button pulse animation */
+@keyframes music-pulse {
+    0%, 100% { 
+        box-shadow: 0 8px 25px rgba(217, 70, 168, 0.4);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 8px 35px rgba(217, 70, 168, 0.7);
+        transform: scale(1.02);
+    }
+}
+
+/* Back button on results page - MOOD COLORS */
+.btn-light {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 3px solid #d946a8 !important;
+    color: #d946a8 !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    font-family: 'Quicksand', sans-serif !important;
+    font-weight: 700 !important;
+    border-radius: 15px !important;
+}
+
+.btn-light:hover {
+    background: white !important;
+    border-color: #c026d3 !important;
+    color: #c026d3 !important;
+    transform: translateY(-3px) !important;
+}
+
+/* 🎯 BLUE BUTTON FOR PANIC MODE RESULTS PAGE */
+.mood-blue .btn-light {
+    border-color: #3b82f6 !important;
+    color: #3b82f6 !important;
+}
+
+.mood-blue .btn-light:hover {
+    border-color: #2563eb !important;
+    color: #2563eb !important;
+}
+
+/* 🎯 GREEN BUTTON FOR TIRED MODE RESULTS PAGE */
+.mood-green .btn-light {
+    border-color: #10b981 !important;
+    color: #10b981 !important;
+}
+
+.mood-green .btn-light:hover {
+    border-color: #059669 !important;
+    color: #059669 !important;
+}
+
+.btn-light {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 3px solid #d946a8 !important;
+    color: #d946a8 !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    font-family: 'Quicksand', sans-serif !important;
+    font-weight: 700 !important;
+    border-radius: 15px !important;
+}
+
+.btn-light:hover {
+    background: white !important;
+    border-color: #c026d3 !important;
+    color: #c026d3 !important;
+    transform: translateY(-3px) !important;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
 @media (max-width: 768px) {
+    .container {
+        padding-top: 40px !important;
+    }
+    
+    .main-card {
+        margin-top: 30px !important;
+        padding: 25px !important;
+    }
+    
+    h1 {
+        font-size: 2rem !important;
+    }
+    
     .bunny-container {
-        transform: scale(0.6);
-        bottom: 10px;
+        transform: scale(0.7);
+        bottom: 40px;
         right: 10px;
     }
     
     .speech-bubble {
         font-size: 12px;
         max-width: 150px;
-        top: -60px;
+        top: -65px;
     }
-}
-
-/* Flashcard Flip Animation */
-.flashcard-container {
-    perspective: 1000px;
-    margin-bottom: 30px;
-}
-
-.flashcard {
-    width: 100%;
-    height: 300px;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    cursor: pointer;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-
-.flashcard.flipped {
-    transform: rotateY(180deg);
-}
-
-.flashcard-front, .flashcard-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 15px;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.flashcard-front {
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-    color: #333;
-}
-
-.flashcard-back {
-    background: linear-gradient(135deg, #fff5f8 0%, #ffffff 100%);
-    color: #333;
-    transform: rotateY(180deg);
-}
-
-/* Card number styling */
-.card-number {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 0.9rem;
-    color: #666;
-    font-weight: bold;
-}
-
-/* Flashcard text styling */
-.flashcard h3 {
-    color: #ff69b4;
-    margin-bottom: 20px;
-    font-size: 1.3rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.flashcard p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    margin-bottom: 15px;
-}
-
-/* Motivation message styling */
-.motivation-message {
-    margin-top: 20px;
-    padding: 15px;
-    background: rgba(255, 105, 180, 0.1);
-    border-radius: 10px;
-    color: #ff69b4;
-    font-weight: bold;
-    font-style: italic;
-    border-left: 4px solid #ff69b4;
-}
-
-/* Hover effects */
-.flashcard:hover {
-    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-    transform: translateY(-5px);
-}
-
-.flashcard.flipped:hover {
-    transform: rotateY(180deg) translateY(-5px);
+    
+    .flashcard {
+        height: 250px;
+    }
+    
+    .flashcard p {
+        font-size: 0.95rem;
+    }
+    
+    .flashcard-text {
+        font-size: 0.95rem;
+    }
+    
+    .btn-outline-mood {
+        height: 150px;
+    }
+    
+    .mood-image {
+        width: 60px;
+        height: 60px;
+    }
 }

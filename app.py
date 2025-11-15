@@ -2,28 +2,95 @@ from flask import Flask, render_template, request
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
+import requests
+
 
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # Fix caching issues
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 #cache clear krne ke lye
 
-# Configure Gemini - FIXED API KEY
+
+gemini_api_key = os.getenv('GEMINI_API_KEY')
+if not gemini_api_key:
+    gemini_api_key = "YOUR_GEMINI_KEY_HERE"
+
+model = None
+
 try:
-    # Get API key from environment variable
-    api_key = os.getenv('GEMINI_API_KEY')
-    if not api_key:
-        # Fallback to your key if .env is not set up
-        api_key = "AIzaSyBQeZfcefV-YfZ-onQO-9umx9C8M1VP9Pg"
+    print("🔧 Configuring Gemini API...")
+    genai.configure(api_key=gemini_api_key)
     
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-1.0-pro')
-    print("✅ Gemini API configured successfully!")
+    
+    flash_models = ['gemini-2.0-flash', 'gemini-2.5-flash', 'gemini-flash-latest']
+    
+    for model_name in flash_models:
+        try:
+            print(f"  Trying {model_name}...")
+            model = genai.GenerativeModel(model_name)
+            test = model.generate_content("hi")
+            print(f"  ✅ {model_name} works! (15 req/min)")
+            break
+        except:
+            continue
+            
 except Exception as e:
-    print(f"❌ Gemini configuration failed: {e}")
-    model = None
+    print(f"  ❌ Gemini not available: {str(e)[:80]}")
 
-# Mood messages (keep your existing MOODS dictionary)
+
+GROQ_API_KEY = os.getenv('GROQ_API_KEY')
+if not GROQ_API_KEY:
+    GROQ_API_KEY = "YOUR_GROQ_KEY_HERE"  
+
+def generate_with_groq(text):
+    
+    try:
+        print("🚀 Using Groq AI (FREE, unlimited for hackathons)...")
+        
+        prompt = f"""Create exactly 5 high-quality flashcard questions from this text for students.
+
+Text: {text}
+
+Requirements:
+- Questions must test deep understanding of THIS specific text
+- Make diverse questions (definitions, explanations, applications)
+- Answers should be 1-3 sentences from the text
+- Perfect for students studying for exams
+
+Format EXACTLY:
+Q: [question]
+A: [answer]
+
+Q: [question]
+A: [answer]
+
+(5 total flashcards)"""
+
+        response = requests.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {GROQ_API_KEY}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": "llama-3.3-70b-versatile", 
+                "messages": [{"role": "user", "content": prompt}],
+                "temperature": 0.7,
+                "max_tokens": 1000
+            }
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            return result['choices'][0]['message']['content']
+        else:
+            print(f"Groq error: {response.status_code}")
+            return None
+            
+    except Exception as e:
+        print(f"Groq failed: {e}")
+        return None
+
 MOODS = {
     'relax': {
         'messages': [
@@ -69,62 +136,91 @@ def generate():
     paragraph = request.form.get('paragraph')
     mood = request.form.get('mood')
     
-    # Check if Gemini is configured
-    if model is None:
-        return render_template('index.html', 
-                             error="API not configured properly. Using demo mode with sample flashcards.")
+  
+    print(f"🔍 Received mood: {mood}")
+    print(f"🔍 Paragraph length: {len(paragraph.split())} words")
     
-    # Check word limit
+   
     word_count = len(paragraph.split())
     if word_count > 400:
         return render_template('index.html', 
                              error="Text is too long! Please use 400 words or less.")
     
+    
+    if mood not in MOODS:
+        print(f"⚠️ Invalid mood '{mood}', defaulting to 'relax'")
+        mood = 'relax'
+    
     try:
-        # Generate 5 flashcards using Gemini
-        prompt = f"""Create exactly 5 flashcard questions and answers from this text.
+        ai_response = None
+        
+        # Gemini nhi chal rha groq add kara ha BS CHAL JAYENSDdjb
+        if model:
+            try:
+                print("🤖 Trying Gemini...")
+                prompt = f"""Create exactly 5 comprehensive flashcard questions from this text.
 
 Text: {paragraph}
 
-Format each flashcard exactly like this:
+Requirements:
+- Questions test deep understanding of THIS text
+- Diverse question types (definitions, explanations, applications)
+- Answers 1-3 sentences from the text
+- Perfect for exam preparation
+
+Format:
 Q: [question]
 A: [answer]
 
-Make sure to create exactly 5 flashcards, separated by blank lines."""
-
-        response = model.generate_content(prompt)
-        text = response.text.strip()
+(5 flashcards total)"""
+                
+                response = model.generate_content(prompt)
+                ai_response = response.text
+                print("✅ Gemini worked!")
+            except Exception as e:
+                print(f"Gemini quota exceeded: {str(e)[:80]}")
         
-        # Parse flashcards
-        flashcards = []
-        current_q = ""
-        current_a = ""
+        # Try Groq if Gemini failed
+        if not ai_response:
+            ai_response = generate_with_groq(paragraph)
         
-        lines = text.split('\n')
-        for line in lines:
-            line = line.strip()
-            if line.startswith('Q:'):
-                if current_q and current_a:
-                    flashcards.append({'question': current_q, 'answer': current_a})
-                current_q = line.replace('Q:', '').strip()
-                current_a = ""
-            elif line.startswith('A:'):
-                current_a = line.replace('A:', '').strip()
+       
+        if ai_response:
+            flashcards = []
+            lines = ai_response.split('\n')
+            current_q = ""
+            current_a = ""
+            
+            for line in lines:
+                line = line.strip()
+                if line.startswith('Q:') or line.startswith('**Q:'):
+                    if current_q and current_a:
+                        flashcards.append({'question': current_q, 'answer': current_a})
+                    current_q = line.replace('Q:', '').replace('**Q:', '').replace('**', '').strip()
+                    current_a = ""
+                elif line.startswith('A:') or line.startswith('**A:'):
+                    current_a = line.replace('A:', '').replace('**A:', '').replace('**', '').strip()
+            
+            if current_q and current_a:
+                flashcards.append({'question': current_q, 'answer': current_a})
+            
+            print(f"📝 Created {len(flashcards)} flashcards")
+            
+           
+            while len(flashcards) < 5:
+                flashcards.append({
+                    'question': 'What is a key concept from this text?',
+                    'answer': 'Review the main ideas and important details.'
+                })
+            
+            flashcards = flashcards[:5]
+        else:
+            raise Exception("All AI APIs failed")
         
-        # Add last card
-        if current_q and current_a:
-            flashcards.append({'question': current_q, 'answer': current_a})
+       
+        mood_data = MOODS.get(mood, MOODS['relax'])
         
-        # Make sure we have exactly 5 cards
-        while len(flashcards) < 5:
-            flashcards.append({
-                'question': 'What is a key concept from this text?',
-                'answer': 'Review the text for details.'
-            })
-        
-        flashcards = flashcards[:5]
-        
-        mood_data = MOODS[mood]
+        print(f"✅ Rendering with mood: {mood}, color: {mood_data['color']}")
         
         return render_template('results.html', 
                              flashcards=flashcards,
@@ -134,23 +230,9 @@ Make sure to create exactly 5 flashcards, separated by blank lines."""
                              mood_name=mood_data['name'])
     
     except Exception as e:
-        # If API fails, use sample flashcards for demo
-        sample_flashcards = [
-            {'question': 'What is the main topic of this text?', 'answer': 'The text discusses various learning strategies and study techniques.'},
-            {'question': 'Why is emotional state important for learning?', 'answer': 'Emotional state affects concentration, memory retention, and motivation.'},
-            {'question': 'What are some effective study techniques mentioned?', 'answer': 'Active recall, spaced repetition, and interleaved practice.'},
-            {'question': 'How can students maintain focus during long study sessions?', 'answer': 'Taking regular breaks, using focus music, and setting specific goals.'},
-            {'question': 'What role does AI play in modern education?', 'answer': 'AI can personalize learning, generate study materials, and provide instant feedback.'}
-        ]
-        
-        mood_data = MOODS[mood]
-        
-        return render_template('results.html', 
-                             flashcards=sample_flashcards,
-                             mood=mood,
-                             messages=mood_data['messages'],
-                             color=mood_data['color'],
-                             mood_name=mood_data['name'])
+        print(f"❌ Error: {e}")
+        return render_template('index.html', 
+                             error="Unable to generate flashcards. Please try again in a moment.")
 
 if __name__ == '__main__':
     app.run(debug=True)

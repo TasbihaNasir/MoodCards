@@ -39,7 +39,6 @@
                                 <div class="col-md-4 mb-3">
                                     <input type="radio" class="btn-check" name="mood" id="relax" value="relax" checked>
                                     <label class="btn btn-outline-mood w-100" for="relax">
-                                        <!-- Cat image for relax mood -->
                                         <img src="{{ url_for('static', filename='images/relax-cat.png') }}" class="mood-image" alt="Relax Cat">
                                         <div class="mood-name">Relaxed?</div>
                                         <small class="text-muted">Lets Rock it</small>
@@ -48,7 +47,6 @@
                                 <div class="col-md-4 mb-3">
                                     <input type="radio" class="btn-check" name="mood" id="panic" value="panic">
                                     <label class="btn btn-outline-mood w-100" for="panic">
-                                        <!-- Cat image for panic mood -->
                                         <img src="{{ url_for('static', filename='images/panic-cat.png') }}" class="mood-image" alt="Panic Cat">
                                         <div class="mood-name">Panicking?</div>
                                         <small class="text-muted">Sucks but lets do it</small>
@@ -57,7 +55,6 @@
                                 <div class="col-md-4 mb-3">
                                     <input type="radio" class="btn-check" name="mood" id="tired" value="tired">
                                     <label class="btn btn-outline-mood w-100" for="tired">
-                                        <!-- Cat image for tired mood -->
                                         <img src="{{ url_for('static', filename='images/tired-cat.png') }}" class="mood-image" alt="Tired Cat">
                                         <div class="mood-name">Tired?</div>
                                         <small class="text-muted">easyy there you can do it</small>
@@ -73,9 +70,12 @@
                             <div class="form-text">Word count: <span id="wordCount">0</span>/400</div>
                         </div>
 
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary btn-lg px-5">
+                        <div class="text-center d-flex justify-content-center gap-3 flex-wrap">
+                            <button type="submit" class="btn btn-primary btn-lg px-5" id="createBtn">
                                 Create My Flashcards
+                            </button>
+                            <button type="button" class="btn btn-primary btn-lg px-5" id="musicToggleBtn">
+                                🎵 Play Focus Music
                             </button>
                         </div>
                     </form>
@@ -83,7 +83,8 @@
             </div>
         </div>
     </div>
-        <!-- Bunny with Speech Bubble for Homepage -->
+
+    
     <div class="bunny-container">
         <div class="speech-bubble" id="speechBubble">
             Ready to create some flashcards? 📚
@@ -109,8 +110,53 @@
         </div>
     </div>
 
+    
+    <iframe 
+        id="youtubePlayer"
+        style="position: fixed; bottom: -9999px; left: -9999px; width: 1px; height: 1px;"
+        frameborder="0" 
+        allow="autoplay; encrypted-media">
+    </iframe>
+
     <script>
-        // Bunny messages for homepage
+        
+        const youtubePlayer = document.getElementById('youtubePlayer');
+        const musicBtn = document.getElementById('musicToggleBtn');
+        const MUSIC_URL = 'https://www.youtube.com/embed/WPni755-Krg?autoplay=1&loop=1&playlist=WPni755-Krg&controls=0&enablejsapi=1';
+
+        
+        let musicPlaying = sessionStorage.getItem('musicPlaying') === 'true';
+        
+        if (musicPlaying) {
+            youtubePlayer.src = MUSIC_URL;
+            musicBtn.innerHTML = '⏸️ Stop Music';
+            musicBtn.style.animation = 'music-pulse 2s ease-in-out infinite';
+        }
+
+        musicBtn.addEventListener('click', function(e) {
+            e.preventDefault(); 
+            
+            if (musicPlaying) {
+                // Stop music by removing src
+                youtubePlayer.src = '';
+                musicBtn.innerHTML = '🎵 Play Focus Music';
+                musicBtn.style.animation = 'none';
+                musicPlaying = false;
+                sessionStorage.setItem('musicPlaying', 'false');
+                console.log('Music stopped');
+            } else {
+                // Play music by setting src
+                youtubePlayer.src = MUSIC_URL;
+                musicBtn.innerHTML = '⏸️ Stop Music';
+                musicBtn.style.animation = 'music-pulse 2s ease-in-out infinite';
+                musicPlaying = true;
+                sessionStorage.setItem('musicPlaying', 'true');
+                console.log('Music playing');
+            }
+        });
+        
+
+        
         const homepageMessages = [
             "Ready to create some flashcards? 📚",
             "Choose your study mood! 🎯",
@@ -132,7 +178,7 @@
             }, 300);
         });
 
-        // Auto-change message every 8 seconds on homepage
+       
         setInterval(() => {
             currentMessageIndex = (currentMessageIndex + 1) % homepageMessages.length;
             speechBubble.textContent = homepageMessages[currentMessageIndex];
@@ -141,9 +187,8 @@
                 speechBubble.classList.remove('bubble-pop');
             }, 300);
         }, 8000);
-    </script>
-    <script>
-        // Word count functionality
+
+       
         const textarea = document.getElementById('paragraph');
         const wordCount = document.getElementById('wordCount');
         
@@ -161,11 +206,10 @@
             }
         });
 
-        // Fallback if images don't load
+        
         document.querySelectorAll('.mood-image').forEach(img => {
             img.onerror = function() {
                 this.style.display = 'none';
-                // Show emoji as fallback
                 const emoji = document.createElement('div');
                 emoji.className = 'mood-emoji';
                 emoji.textContent = this.alt.includes('Relax') ? '😌' : 
