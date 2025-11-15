@@ -741,3 +741,66 @@ h1 {
         height: 60px;
     }
 }
+/*fuckass music button*/
+.mood-pink #musicToggleBtn {
+    background: linear-gradient(135deg, #d946a8 0%, #c026d3 100%) !important;
+    border: none !important;
+    box-shadow: 0 8px 25px rgba(217, 70, 168, 0.4) !important;
+}
+
+.mood-blue #musicToggleBtn {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+    border: none !important;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4) !important;
+}
+
+.mood-green #musicToggleBtn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    border: none !important;
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4) !important;
+}
+
+.mood-pink #musicToggleBtn:hover {
+    background: linear-gradient(135deg, #c026d3 0%, #a21caf 100%) !important;
+    box-shadow: 0 12px 35px rgba(217, 70, 168, 0.5) !important;
+}
+
+.mood-blue #musicToggleBtn:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    box-shadow: 0 12px 35px rgba(59, 130, 246, 0.5) !important;
+}
+
+.mood-green #musicToggleBtn:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+    box-shadow: 0 12px 35px rgba(16, 185, 129, 0.5) !important;
+}
+
+@keyframes music-pulse-blue {
+    0%, 100% { 
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 8px 35px rgba(59, 130, 246, 0.7);
+        transform: scale(1.02);
+    }
+}
+
+@keyframes music-pulse-green {
+    0%, 100% { 
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 8px 35px rgba(16, 185, 129, 0.7);
+        transform: scale(1.02);
+    }
+}
+
+.mood-blue #musicToggleBtn[style*="animation"] {
+    animation: music-pulse-blue 2s ease-in-out infinite !important;
+}
+
+.mood-green #musicToggleBtn[style*="animation"] {
+    animation: music-pulse-green 2s ease-in-out infinite !important;
+}

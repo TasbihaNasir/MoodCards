@@ -13,12 +13,12 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 #cache clear krne ke lye
 
 gemini_api_key = os.getenv('GEMINI_API_KEY')
 if not gemini_api_key:
-    gemini_api_key = "YOUR_GEMINI_KEY_HERE"
+    gemini_api_key = "MY_GEMINI_KEY_HERE"
 
 model = None
 
 try:
-    print("🔧 Configuring Gemini API...")
+    print("Configuring Gemini API...")
     genai.configure(api_key=gemini_api_key)
     
     
@@ -29,7 +29,7 @@ try:
             print(f"  Trying {model_name}...")
             model = genai.GenerativeModel(model_name)
             test = model.generate_content("hi")
-            print(f"  ✅ {model_name} works! (15 req/min)")
+            print(f"   {model_name} works! (15 req/min)")
             break
         except:
             continue
@@ -40,12 +40,12 @@ except Exception as e:
 
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 if not GROQ_API_KEY:
-    GROQ_API_KEY = "YOUR_GROQ_KEY_HERE"  
+    GROQ_API_KEY = "MY_GROQ_KEY_HERE"  
 
 def generate_with_groq(text):
     
     try:
-        print("🚀 Using Groq AI (FREE, unlimited for hackathons)...")
+       
         
         prompt = f"""Create exactly 5 high-quality flashcard questions from this text for students.
 
@@ -157,7 +157,7 @@ def generate():
         # Gemini nhi chal rha groq add kara ha BS CHAL JAYENSDdjb
         if model:
             try:
-                print("🤖 Trying Gemini...")
+                
                 prompt = f"""Create exactly 5 comprehensive flashcard questions from this text.
 
 Text: {paragraph}
@@ -176,7 +176,7 @@ A: [answer]
                 
                 response = model.generate_content(prompt)
                 ai_response = response.text
-                print("✅ Gemini worked!")
+                
             except Exception as e:
                 print(f"Gemini quota exceeded: {str(e)[:80]}")
         
@@ -204,7 +204,7 @@ A: [answer]
             if current_q and current_a:
                 flashcards.append({'question': current_q, 'answer': current_a})
             
-            print(f"📝 Created {len(flashcards)} flashcards")
+            print(f"Created {len(flashcards)} flashcards")
             
            
             while len(flashcards) < 5:
@@ -220,7 +220,7 @@ A: [answer]
        
         mood_data = MOODS.get(mood, MOODS['relax'])
         
-        print(f"✅ Rendering with mood: {mood}, color: {mood_data['color']}")
+        print(f" Rendering with mood: {mood}, color: {mood_data['color']}")
         
         return render_template('results.html', 
                              flashcards=flashcards,
@@ -230,7 +230,7 @@ A: [answer]
                              mood_name=mood_data['name'])
     
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"Error: {e}")
         return render_template('index.html', 
                              error="Unable to generate flashcards. Please try again in a moment.")
 
