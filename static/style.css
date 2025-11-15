@@ -1,0 +1,363 @@
+/* Add to your existing style.css */
+
+/* Wider container */
+.container {
+    max-width: 1000px;
+}
+
+/* Wider cards */
+.col-md-10 {
+    width: 100%;
+}
+
+/* Better text sizing for wider cards */
+.flashcard-text {
+    font-size: 1.3rem;
+    line-height: 1.7;
+    padding: 0 20px;
+}
+
+/* Mood name styling */
+.mood-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 5px 0;
+}
+
+/* Better button styling */
+.btn-outline-mood {
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.mood-emoji {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.mood-image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 8px;
+    transition: all 0.3s ease;
+}
+
+/* Make gray cats look good with pink background */
+.btn-outline-mood:hover .mood-image {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.btn-check:checked + .btn-outline-mood .mood-image {
+    background: rgba(255, 255, 255, 0.7);
+    transform: scale(1.05);
+    box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.3);
+}
+
+/* Mood button styling */
+.btn-outline-mood {
+    border: 3px solid #dee2e6;
+    padding: 20px;
+    transition: all 0.3s;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-check:checked + .btn-outline-mood {
+    background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+    border-color: #ff69b4;
+    color: white;
+    transform: scale(1.05);
+}
+
+.btn-check:checked + .btn-outline-mood .mood-name,
+.btn-check:checked + .btn-outline-mood .text-muted {
+    color: white !important;
+}
+
+/* Mood name styling */
+.mood-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 8px 0 4px 0;
+    color: #333;
+}
+
+/* Fallback emoji styling */
+.mood-emoji {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    display: none; /* Hidden by default, shown only if image fails */
+}
+
+/* Bunny Container */
+.bunny-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+/* Make bunny clickable */
+.bunny-container * {
+    pointer-events: auto;
+}
+
+/* Speech Bubble */
+.speech-bubble {
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 15px 20px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    font-family: 'Balsamiq Sans', cursive;
+    font-size: 14px;
+    max-width: 200px;
+    text-align: center;
+    z-index: 1001;
+    border: 3px solid #ff69b4;
+    animation: float 3s ease-in-out infinite;
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid white;
+}
+
+.speech-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 12px solid #ff69b4;
+}
+
+/* Bubble pop animation */
+.bubble-pop {
+    animation: pop 0.3s ease-in-out;
+}
+
+@keyframes pop {
+    0% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.1); }
+    100% { transform: translateX(-50%) scale(1); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateX(-50%) translateY(0px); }
+    50% { transform: translateX(-50%) translateY(-5px); }
+}
+
+/* Bunny Styles - Updated for smaller size */
+.bunny {
+    width: 150px;
+    height: 200px;
+    transform: translateX(70px) scale(0.7);
+    transform-origin: bottom center;
+}
+
+.bunny * {
+    position: absolute;
+}
+
+.bunny__body {
+    width: 130px;
+    height: 130px;
+    background: var(--bunny-color);
+    border-radius: 65px 65px 20px 0px;
+    transform: translateY(50px);
+}
+
+/* Updated bunny variables for our app */
+:root {
+    --bunny-size: 200px;
+    --bunny-color: #ffb6c1;
+    --bunny-color-2: #ff91a4;
+    --bunny-eye-color: #473929;
+    --bunny-cheek-color: #ff69b4;
+    --bunny-tongue-color: #ff1493;
+    --bunny-mouth-color: #473929;
+    --bunny-nose-color: #473929;
+    
+    --stick-color: #ff8819;
+    --stick-bubble-color-1: #9e9eff;
+    --stick-bubble-color-2: white;
+    
+    --text-color: #473929;
+    --grass-color: #84cc84;
+    --grass-color-2: lightgreen;
+
+    --breathe-duration: 10s;
+
+    --bubble-color-1: #4fd5e7;
+    --bubble-color-2: #829fff;
+    --bubble-color-3: #76e0cf;
+    --bubble-color-4: #86befd;
+    --bubble-color-5: #91f1d9;
+}
+
+/* Rest of the bunny styles (scaled down) */
+.bunny__eyes {
+    padding: 4px;
+    background: var(--bunny-eye-color);
+    border-radius: 50%;
+    box-shadow: 50px 0 var(--bunny-eye-color);
+    transform: translate(25px, 25px) rotateZ(6deg);
+    animation: eyesAnim var(--breathe-duration) linear infinite;
+}
+
+.bunny__nose {
+    padding: 3px 5px;
+    background: var(--bunny-nose-color);
+    border-radius: 50%;
+    transform: translate(45px, 30px);
+    animation: noseAnim var(--breathe-duration) linear infinite;
+}
+
+.bunny__cheeks {
+    padding: 12px;
+    background: var(--bunny-cheek-color);
+    border-radius: 50%;
+    transform: translate(5px, 35px) rotateZ(5deg);
+    box-shadow: 70px 0 var(--bunny-cheek-color);
+    animation: cheeksAnim var(--breathe-duration) linear infinite;
+}
+
+.bunny__mouth {
+    padding: 5px 7px;
+    background: var(--bunny-tongue-color);
+    border-radius: 50%;
+    transform: translate(43px, 45px);
+    box-shadow: inset 3px 5px var(--bunny-mouth-color);
+    animation: breatheMouthAnim var(--breathe-duration) linear infinite;
+}
+
+.bunny__ears {
+    width: 130px;
+    height: 70px;
+}
+
+.bunny__ear {
+    width: 35px;
+    height: 70px;
+    border-radius: 50% 50% 0%;
+    background: var(--bunny-color);
+    transform-origin: bottom left;
+    box-shadow: inset 0px 10px var(--bunny-color-2);
+}
+
+.bunny__ear--left {
+    transform: translateX(35px) rotate(30deg);
+    animation: earLeftAnim var(--breathe-duration) linear infinite;
+}
+
+.bunny__ear--right {
+    transform: translateX(80px) rotate(45deg);
+    animation: earRightAnim var(--breathe-duration) linear infinite;
+}
+
+.bunny__feet {
+    height: 25px;
+    width: 130px;
+    transform: translateY(175px);
+}
+
+.bunny__foot {
+    height: 25px;
+    width: 45px;
+    background: var(--bunny-color-2);
+    border-radius: 0 0 15px 50%;
+}
+
+.bunny__foot--left {
+    transform: rotate(10deg) skewY(-20deg);
+}
+
+.bunny__foot--right {
+    transform: translateX(70px) rotate(10deg) skewY(-20deg);
+}
+
+.bunny__tail {
+    height: 35px;
+    width: 30px;
+    background: var(--bunny-color-2);
+    border-radius: 50% 50% 50%;
+    transform: translate(125px, 130px) rotate(8deg);
+    animation: tailAnim 3s linear infinite;
+}
+
+.bunny__paw {
+    width: 35px;
+    height: 35px;
+    background: var(--bunny-color);
+    border-radius: 35px 0 0 35px;
+    transform-origin: bottom right;
+    transform: translate(-30px, 130px) rotate(-2deg);
+    animation: pawAnim var(--breathe-duration) linear infinite;
+}
+
+.grass {
+    width: 200px;
+    height: 50px;
+    background: var(--grass-color);
+    position: absolute;
+    border-radius: 50%;
+    transform: translateY(170px);
+    box-shadow: 0 4px 0 10px var(--grass-color-2);
+}
+
+/* Make bunny interactive */
+.bunny {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.bunny:hover {
+    transform: translateX(70px) scale(0.75);
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+    .bunny-container {
+        transform: scale(0.6);
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .speech-bubble {
+        font-size: 12px;
+        max-width: 150px;
+        top: -60px;
+    }
+}
