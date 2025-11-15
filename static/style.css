@@ -361,3 +361,96 @@
         top: -60px;
     }
 }
+
+/* Flashcard Flip Animation */
+.flashcard-container {
+    perspective: 1000px;
+    margin-bottom: 30px;
+}
+
+.flashcard {
+    width: 100%;
+    height: 300px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.flashcard.flipped {
+    transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.flashcard-front {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    color: #333;
+}
+
+.flashcard-back {
+    background: linear-gradient(135deg, #fff5f8 0%, #ffffff 100%);
+    color: #333;
+    transform: rotateY(180deg);
+}
+
+/* Card number styling */
+.card-number {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: bold;
+}
+
+/* Flashcard text styling */
+.flashcard h3 {
+    color: #ff69b4;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.flashcard p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Motivation message styling */
+.motivation-message {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 105, 180, 0.1);
+    border-radius: 10px;
+    color: #ff69b4;
+    font-weight: bold;
+    font-style: italic;
+    border-left: 4px solid #ff69b4;
+}
+
+/* Hover effects */
+.flashcard:hover {
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    transform: translateY(-5px);
+}
+
+.flashcard.flipped:hover {
+    transform: rotateY(180deg) translateY(-5px);
+}

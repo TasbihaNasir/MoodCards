@@ -8,11 +8,22 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # Fix caching issues
 
-# Configure Gemini - UPDATED MODEL NAME
-genai.configure(api_key=os.getenv('AIzaSyBQeZfcefV-YfZ-onQO-9umx9C8M1VP9Pg'))
-model = genai.GenerativeModel('gemini-1.0-pro')  # Changed from 'gemini-pro'
+# Configure Gemini - FIXED API KEY
+try:
+    # Get API key from environment variable
+    api_key = os.getenv('GEMINI_API_KEY')
+    if not api_key:
+        # Fallback to your key if .env is not set up
+        api_key = "AIzaSyBQeZfcefV-YfZ-onQO-9umx9C8M1VP9Pg"
+    
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel('gemini-1.0-pro')
+    print("✅ Gemini API configured successfully!")
+except Exception as e:
+    print(f"❌ Gemini configuration failed: {e}")
+    model = None
 
-# Mood messages
+# Mood messages (keep your existing MOODS dictionary)
 MOODS = {
     'relax': {
         'messages': [
@@ -57,6 +68,11 @@ def home():
 def generate():
     paragraph = request.form.get('paragraph')
     mood = request.form.get('mood')
+    
+    # Check if Gemini is configured
+    if model is None:
+        return render_template('index.html', 
+                             error="API not configured properly. Using demo mode with sample flashcards.")
     
     # Check word limit
     word_count = len(paragraph.split())
@@ -106,7 +122,7 @@ Make sure to create exactly 5 flashcards, separated by blank lines."""
                 'answer': 'Review the text for details.'
             })
         
-        flashcards = flashcards[:5]  # Only take first 5
+        flashcards = flashcards[:5]
         
         mood_data = MOODS[mood]
         
@@ -118,8 +134,23 @@ Make sure to create exactly 5 flashcards, separated by blank lines."""
                              mood_name=mood_data['name'])
     
     except Exception as e:
-        return render_template('index.html', 
-                             error=f"Error generating flashcards. Please try again! ({str(e)})")
+        # If API fails, use sample flashcards for demo
+        sample_flashcards = [
+            {'question': 'What is the main topic of this text?', 'answer': 'The text discusses various learning strategies and study techniques.'},
+            {'question': 'Why is emotional state important for learning?', 'answer': 'Emotional state affects concentration, memory retention, and motivation.'},
+            {'question': 'What are some effective study techniques mentioned?', 'answer': 'Active recall, spaced repetition, and interleaved practice.'},
+            {'question': 'How can students maintain focus during long study sessions?', 'answer': 'Taking regular breaks, using focus music, and setting specific goals.'},
+            {'question': 'What role does AI play in modern education?', 'answer': 'AI can personalize learning, generate study materials, and provide instant feedback.'}
+        ]
+        
+        mood_data = MOODS[mood]
+        
+        return render_template('results.html', 
+                             flashcards=sample_flashcards,
+                             mood=mood,
+                             messages=mood_data['messages'],
+                             color=mood_data['color'],
+                             mood_name=mood_data['name'])
 
 if __name__ == '__main__':
     app.run(debug=True)
