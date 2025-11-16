@@ -37,14 +37,13 @@ Visit http://localhost:5000 to start using MoodCards!
 - AI: Google Gemini API
 - Audio: YouTube API for focus music
 
-Progress Tracking - Analytics and study statistics
+
 ## 🚀 Future Improvements
 - Mathematical Equations - LaTeX support for STEM subjects
 - Quiz Mode - Test knowledge after studying flashcards
 - AI Chat Assistant - Real-time Q&A for instant help
 - Mobile App - React Native version for on-the-go studying
 - Dynamic Motivations - AI-generated personalized encouragement messages
-
 
 
 <div align="center">
