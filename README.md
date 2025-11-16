@@ -7,8 +7,8 @@ AI-powered flashcards that adapt to your emotional state while studying.
 - **🤖 AI-Powered Flashcards** - Generate study cards from any text using Google Gemini API
 - **🎭 Mood-Based Learning** - Choose from Relaxed, Panic, or Tired modes with tailored motivation
 - **🎵 Focus Music** - Optional gamma wave music to enhance concentration
-- **🐰 Interactive Companion** - Cute bunny with encouraging messages
-- **🎴 Beautiful Animations** - Smooth flip cards with responsive design
+- **🐰 Interactive Companion** - Bunny with encouraging messages
+- **🎴 Animations** - Smooth flip cards with responsive design
 ## 🚀 Quick Start
 ### Prerequisites
 - Python 3.8+
@@ -31,31 +31,6 @@ python app.py
 
 Visit http://localhost:5000 to start using MoodCards!
 
-🎯 Usage
-Select your mood - Relaxed 😌, Panic 😰, or Tired 😴
-
-Paste study text - Up to 400 words
-
-Generate flashcards - AI creates 5 interactive cards
-
-Study with support - Flip cards, play focus music, get motivation
-
-🛠️ Built With
-Backend: Python, Flask
-
-Frontend: HTML5, CSS3, JavaScript, Bootstrap
-
-AI: Google Gemini API
-
-Audio: YouTube API for focus music
-
-🚀 Future Improvements
-Mathematical Equations - LaTeX support for STEM subjects
-Visit http://localhost:5000 to start using MoodCards!
-
-Quiz Mode - Test knowledge after studying flashcards
-
-AI Chat Assistant - Real-time Q&A for instant help
 ## 🛠️ Built With
 - Backend: Python, Flask
 - Frontend: HTML5, CSS3, JavaScript, Bootstrap
@@ -67,12 +42,11 @@ Progress Tracking - Analytics and study statistics
 - Mathematical Equations - LaTeX support for STEM subjects
 - Quiz Mode - Test knowledge after studying flashcards
 - AI Chat Assistant - Real-time Q&A for instant help
-- Progress Tracking - Analytics and study statistics
 - Mobile App - React Native version for on-the-go studying
 - Dynamic Motivations - AI-generated personalized encouragement messages
 
-Mobile App - React Native version for on-the-go studying
 
-Dynamic Motivations - AI-generated personalized encouragement messages
 
 <div align="center">
+    emotional state matters while studying
+</div>
